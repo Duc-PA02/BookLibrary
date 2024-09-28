@@ -1,12 +1,11 @@
 package com.booklibrary.bookservice.command.controller;
 
 import com.booklibrary.bookservice.command.command.CreateBookCommmand;
+import com.booklibrary.bookservice.command.command.DeleteBookCommand;
+import com.booklibrary.bookservice.command.command.UpdateBookCommand;
 import com.booklibrary.bookservice.command.model.BookRequestModel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 
 import java.util.UUID;
@@ -20,5 +19,17 @@ public class BookCommandController {
     public String addBook(@RequestBody BookRequestModel model){
         CreateBookCommmand commmand = new CreateBookCommmand(UUID.randomUUID().toString(), model.getName(), model.getAuthor(), true);
         return commandGateway.sendAndWait(commmand);
+    }
+    @PutMapping("/{bookId}")
+    public String updateBook(@RequestBody BookRequestModel model, @PathVariable String bookId){
+
+        UpdateBookCommand command = new UpdateBookCommand(bookId, model.getName(), model.getAuthor(), model.getIsReady());
+        return commandGateway.sendAndWait(command);
+    }
+
+    @DeleteMapping("/{bookId}")
+    public String deleteBook(@PathVariable String bookId){
+        DeleteBookCommand command = new DeleteBookCommand(bookId);
+        return commandGateway.sendAndWait(command);
     }
 }

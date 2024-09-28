@@ -1,19 +1,15 @@
-package com.booklibrary.bookservice.command.data;
+package com.booklibrary.bookservice.query.model;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name = "book")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Book {
-    @Id
+@AllArgsConstructor
+public class BookResponseModel {
     private String id;
     private String name;
     private String author;
