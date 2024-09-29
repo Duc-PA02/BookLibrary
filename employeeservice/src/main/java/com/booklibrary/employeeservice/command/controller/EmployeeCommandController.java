@@ -5,6 +5,8 @@ import com.booklibrary.employeeservice.command.command.DeleteEmployeeCommand;
 import com.booklibrary.employeeservice.command.command.UpdateEmployeeCommand;
 import com.booklibrary.employeeservice.command.model.CreateEmployeeModel;
 import com.booklibrary.employeeservice.command.model.UpdateEmployeeModel;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -15,6 +17,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/v1/employees")
 @RequiredArgsConstructor
+@Tag(name = "Command Query")
 public class EmployeeCommandController {
     private final CommandGateway commandGateway;
 
@@ -29,7 +32,7 @@ public class EmployeeCommandController {
         UpdateEmployeeCommand command = new UpdateEmployeeCommand(employeeId,model.getFirstName(),model.getLastName(),model.getKin(),model.getIsDisciplined());
         return commandGateway.sendAndWait(command);
     }
-
+    @Hidden
     @DeleteMapping("/{employeeId}")
     public String deleteEmployee(@PathVariable String employeeId){
         DeleteEmployeeCommand command = new DeleteEmployeeCommand(employeeId);
